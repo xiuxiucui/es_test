@@ -15,7 +15,7 @@ services:
       - discovery.seed_hosts=es02
       - ELASTIC_PASSWORD=elastic
       - http.cors.enabled=true
-      - http.cors.allow-origin="*"
+      - http.cors.allow-origin=*
       - http.cors.allow-methods=OPTIONS, HEAD, GET, POST, PUT, DELETE
       - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,x-elastic-client-meta
       - http.cors.allow-credentials=true
@@ -34,6 +34,11 @@ services:
       - cluster.name=docker-cluster
       - cluster.initial_master_nodes=es01,es02
       - discovery.seed_hosts=es01
+      - http.cors.enabled=true
+      - http.cors.allow-origin=*
+      - http.cors.allow-methods=OPTIONS, HEAD, GET, POST, PUT, DELETE
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,x-elastic-client-meta
+      - http.cors.allow-credentials=true
     mem_limit: 1g
     memswap_limit: 2g
 
