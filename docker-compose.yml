@@ -51,8 +51,6 @@ services:
         find . -type f -exec chmod 640 \{\} \;;
         echo "Waiting for Elasticsearch availability";
         until curl -s --cacert config/certs/ca/ca.crt https://es01:9200 | grep -q "missing authentication credentials"; do sleep 30; done;
-        echo "Setting kibana_system password";
-        until curl -s -X POST --cacert config/certs/ca/ca.crt -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" https://es01:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
         echo "All done!";
       '
     healthcheck:
@@ -80,7 +78,7 @@ services:
       - discovery.seed_hosts=es02
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - http.cors.enabled=true
-      - http.cors.allow-origin=*
+      - http.cors.allow-origin="*"
       - http.cors.allow-methods=OPTIONS, HEAD, GET, POST, PUT, DELETE
       - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,x-elastic-client-meta
       - http.cors.allow-credentials=true
@@ -115,7 +113,7 @@ services:
       - cluster.initial_master_nodes=es01,es02
       - discovery.seed_hosts=es01
       - http.cors.enabled=true
-      - http.cors.allow-origin=*
+      - http.cors.allow-origin="*"
       - http.cors.allow-methods=OPTIONS, HEAD, GET, POST, PUT, DELETE
       - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,x-elastic-client-meta
       - http.cors.allow-credentials=true
