@@ -2,7 +2,7 @@ version: "2.2"
 services:
   es01:
     container_name: es01
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
     volumes:
       - esdata01:/usr/share/elasticsearch/data
     ports:
@@ -26,7 +26,7 @@ services:
     depends_on:
       - es01
     container_name: es02
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
     volumes:
       - esdata02:/usr/share/elasticsearch/data
     environment:
@@ -41,6 +41,15 @@ services:
       - http.cors.allow-credentials=true
     mem_limit: 1g
     memswap_limit: 2g
+
+  search-ui:
+    depends_on:
+      - es01
+      - es02
+    container_name: search-ui
+    build: ./frontend
+    ports:
+      - '3000:3000'
 
 volumes:
   esdata01:
